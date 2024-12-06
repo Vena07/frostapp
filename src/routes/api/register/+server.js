@@ -22,7 +22,7 @@ export async function POST({ request }) {
             email,
             nickname,
             password_hash: passwordHash,
-            token: '', // Defaultně prázdné
+            token: 0, // Defaultně prázdné
             token_expires: new Date().toISOString(), // Defaultní hodnota
             is_email_verified: 0, // Výchozí hodnota (0 = false v SQLite)
             is_online: 0, // Výchozí hodnota
