@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1733492063339,
+      "tag": "0000_dazzling_squadron_sinister",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1733501947262,
+      "tag": "0001_giant_mother_askani",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1733502364454,
+      "tag": "0002_chunky_solo",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1733502515636,
+      "tag": "0003_smiling_tony_stark",
+      "breakpoints": true
+    }
+  ]
+}
