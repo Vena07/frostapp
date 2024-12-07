@@ -5,7 +5,7 @@ export const user = sqliteTable('user', {
   email: text('email').notNull(),
   nickname: text('nickname').notNull(),
   password_hash: text('password_hash').notNull(),
-  token: integer('token'),
+  token: text('token'),
   token_expires: text('token_expires'), // ISO 8601
   is_email_verified: integer('is_email_verified').notNull(), // 0 nebo 1
   is_online: integer('is_online').notNull(), // 0 nebo 1

@@ -36,6 +36,13 @@
       "when": 1733503852824,
       "tag": "0004_optimal_blur",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1733529198375,
+      "tag": "0005_jittery_wiccan",
+      "breakpoints": true
     }
   ]
 }

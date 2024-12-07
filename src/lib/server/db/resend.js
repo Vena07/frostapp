@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { SECRET_RESEND_API_KEY } from '$env/static/private';
+import { RESEND_API_KEY } from '$env/static/private';
 import { BASE_URL } from '$env/static/private';
 
 // Funkce pro odeslání verifikačního e-mailu
@@ -12,10 +12,10 @@ export async function sendVerificationEmail(to, nickname, token) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${SECRET_RESEND_API_KEY}`
+            Authorization: `Bearer ${RESEND_API_KEY}`
         },
         body: JSON.stringify({
-            from: 'notifications@xp-life.cz',
+            from: 'delivered@resend.dev',
             to,
             subject,
             html: htmlContent
@@ -36,7 +36,7 @@ export async function sendEmail(to, subject, html) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${SECRET_RESEND_API_KEY}`
+            Authorization: `Bearer ${RESEND_API_KEY}`
         },
         body: JSON.stringify({
             from: 'delivered@resend.dev', // Testovací adresa pro odesílání e-mailů
