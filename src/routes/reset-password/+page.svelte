@@ -8,9 +8,36 @@
         token = $page.url.searchParams.get('token');
     }
 
+    function validatePassword(password) {
+        const minLength = 8;
+        const hasLetter = /[a-zA-Z]/.test(password);
+        const hasNumber = /\d/.test(password);
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+        if (password.length < minLength) {
+            return 'Heslo musí mít alespoň 8 znaků.';
+        }
+        if (!hasLetter) {
+            return 'Heslo musí obsahovat alespoň jedno písmeno.';
+        }
+        if (!hasNumber) {
+            return 'Heslo musí obsahovat alespoň jedno číslo.';
+        }
+        if (!hasSpecialChar) {
+            return 'Heslo musí obsahovat alespoň jeden speciální znak.';
+        }
+        return '';
+    }
+
     async function resetPassword() {
         if (!token) {
             message = 'Chybí ověřovací token.';
+            return;
+        }
+
+        const validationMessage = validatePassword(newPassword);
+        if (validationMessage) {
+            message = validationMessage;
             return;
         }
 
