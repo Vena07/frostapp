@@ -43,18 +43,20 @@
     }
   }
 
-  async function resetPassword() {
+  async function sendResetLink() {
     try {
-      const response = await fetch('/api/reset-password', {
+      const response = await fetch('/api/send-reset-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
 
       const data = await response.json();
-      message = data.success ? data.message : data.error;
+      message = data.success
+        ? 'Email s odkazem na reset hesla byl odeslán.'
+        : data.error || 'Nepodařilo se odeslat email.';
     } catch (error) {
-      console.error('Chyba při odesílání emailu pro reset hesla:', error);
+      console.error('Chyba při odesílání emailu:', error);
       message = 'Nepodařilo se odeslat email.';
     }
   }
@@ -95,7 +97,7 @@
 {/if}
 
 {#if currentForm === 'reset'}
-<form on:submit|preventDefault={resetPassword}>
+<form on:submit|preventDefault={sendResetLink}>
   <label>
     Email:
     <input type="email" bind:value={email} required />

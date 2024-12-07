@@ -21,15 +21,24 @@ export async function POST({ request }) {
                 id: user.id,
                 email: user.email,
                 passwordHash: user.password_hash,
+                isEmailVerified: user.is_email_verified, // Přidání stavu ověření emailu
             })
             .from(user)
-            .where(eq(user.email, email)) // Oprava použití filtru eq
+            .where(eq(user.email, email))
             .execute();
 
         if (!existingUser) {
             return new Response(
                 JSON.stringify({ error: 'Uživatel nebyl nalezen.' }),
                 { status: 401 }
+            );
+        }
+
+        // Kontrola, zda byl email ověřen
+        if (existingUser.isEmailVerified === 0) {
+            return new Response(
+                JSON.stringify({ error: 'Email nebyl ověřen. Zkontrolujte svůj email.' }),
+                { status: 403 }
             );
         }
 
@@ -53,7 +62,7 @@ export async function POST({ request }) {
                 token,
                 token_expires: tokenExpires,
             })
-            .where(eq(user.id, existingUser.id)) // Použití eq pro ID
+            .where(eq(user.id, existingUser.id))
             .execute();
 
         return new Response(
