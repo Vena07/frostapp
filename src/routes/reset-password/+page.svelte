@@ -2,6 +2,7 @@
     import { page } from '$app/stores';
     let token = '';
     let newPassword = '';
+    let confirmPassword = ''; // Nové pole pro potvrzení hesla
     let message = 'Zadejte nové heslo.';
 
     $: {
@@ -32,6 +33,11 @@
     async function resetPassword() {
         if (!token) {
             message = 'Chybí ověřovací token.';
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            message = 'Hesla se neshodují.';
             return;
         }
 
@@ -66,6 +72,10 @@
         <label>
             Nové heslo:
             <input type="password" bind:value={newPassword} required />
+        </label>
+        <label>
+            Potvrzení hesla:
+            <input type="password" bind:value={confirmPassword} required />
         </label>
         <button type="submit">Změnit heslo</button>
     </form>

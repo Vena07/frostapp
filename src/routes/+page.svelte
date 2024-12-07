@@ -2,11 +2,17 @@
   let email = '';
   let nickname = '';
   let password = '';
+  let confirmPassword = ''; // Nové pole pro potvrzení hesla
   let newPassword = '';
   let message = '';
   let currentForm = 'register'; // Může být 'register', 'login', nebo 'reset'
 
   async function registerUser() {
+    if (password !== confirmPassword) {
+      message = 'Hesla se neshodují.';
+      return;
+    }
+
     try {
       const response = await fetch('/api/register', {
         method: 'POST',
@@ -77,6 +83,10 @@
   <label>
     Heslo:
     <input type="password" bind:value={password} required />
+  </label>
+  <label>
+    Potvrzení hesla:
+    <input type="password" bind:value={confirmPassword} required />
   </label>
   <button type="submit">Registrovat</button>
 </form>
