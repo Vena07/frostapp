@@ -1,48 +1,42 @@
 import { db } from '$lib/server/db/index.js';
-import { user } from '$lib/server/db/schema.js';
-import { eq } from 'drizzle-orm';
+import { sendVerificationEmail } from '$lib/server/resend';
 
-export async function GET({ url }) {
-    const token = url.searchParams.get('token');
-
-    if (!token) {
-        return new Response(
-            JSON.stringify({ error: 'Token je povinný.' }),
-            { status: 400 }
-        );
-    }
-
+export async function POST({ request }) {
     try {
-        const [existingUser] = await db
-            .select()
-            .from(user)
-            .where(eq(user.token, token))
-            .execute();
+        const { token } = await request.json();
 
-        if (!existingUser) {
+        if (!token) {
             return new Response(
-                JSON.stringify({ error: 'Token je neplatný nebo expirovaný.' }),
+                JSON.stringify({ error: 'Token je povinný.' }),
                 { status: 400 }
             );
         }
 
-        await db
-            .update(user)
-            .set({
-                is_email_verified: 1,
-                token: null, // Smazání tokenu po ověření
-            })
-            .where(eq(user.id, existingUser.id))
-            .execute();
+        // Najít uživatele podle tokenu v SQLite
+        const [user] = await db.prepare('SELECT * FROM users WHERE verification_token = ?')
+                                 .bind(token)
+                                 .all();
+
+        if (!user) {
+            return new Response(
+                JSON.stringify({ error: 'Token neexistuje nebo je neplatný.' }),
+                { status: 404 }
+            );
+        }
+
+        // Aktualizovat uživatele na ověřený
+        await db.prepare('UPDATE users SET is_email_verified = 1, verification_token = NULL WHERE id = ?')
+                 .bind(user.id)
+                 .run();
 
         return new Response(
-            JSON.stringify({ success: true, message: 'Email byl úspěšně ověřen!' }),
+            JSON.stringify({ success: true, message: 'Email byl úspěšně ověřen.' }),
             { status: 200 }
         );
     } catch (error) {
         console.error('Chyba při ověřování emailu:', error);
         return new Response(
-            JSON.stringify({ error: 'Interní chyba serveru.' }),
+            JSON.stringify({ error: 'Chyba při ověřování emailu.' }),
             { status: 500 }
         );
     }

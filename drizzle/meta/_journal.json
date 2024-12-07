@@ -43,6 +43,13 @@
       "when": 1733529198375,
       "tag": "0005_jittery_wiccan",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1733608681341,
+      "tag": "0006_daffy_namorita",
+      "breakpoints": true
     }
   ]
 }

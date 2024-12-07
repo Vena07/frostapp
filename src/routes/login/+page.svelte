@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
 	import { goto } from '$app/navigation'; // Importování goto z SvelteKit
 	import { fade } from 'svelte/transition'; // Importování fade pro přechod
 
@@ -13,7 +13,7 @@
   let datum_nar = "";
 
 	// Funkce pro validaci hesla
-	function validatePassword(password: string) {
+	function validatePassword(){
 		const errors = [];
 		if (!/[A-Z]/.test(password)) {
 			errors.push('The password must contain at least one uppercase letter.');

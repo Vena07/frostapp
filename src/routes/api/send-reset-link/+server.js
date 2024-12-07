@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db/index.js';
 import { user } from '$lib/server/db/schema.js';
 import { eq } from 'drizzle-orm';
-import { sendVerificationEmail } from '$lib/server/email';
+import { sendVerificationEmail } from '$lib/server/resend';
 
 export async function POST({ request }) {
     try {

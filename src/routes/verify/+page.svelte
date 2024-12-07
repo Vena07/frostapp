@@ -2,39 +2,54 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
 
-  let token = '';
-  let message = 'Probíhá ověřování...';
+  let message = 'Ověřuji váš email...';
+  let token = '';  // Token z URL parametru
+  let isVerified = false;
 
-  onMount(() => {
-    const urlParams = new URLSearchParams($page.url.search);
-    token = urlParams.get('token');
-    console.log('Token načtený z URL:', token);
+  // Načtení tokenu z URL
+  $: {
+    token = $page.url.searchParams.get('token');
+  }
 
-    if (token) {
-      verifyEmail();
-    } else {
-      message = 'Chybí ověřovací token.';
-    }
-  });
-
+  // Funkce pro ověření tokenu
   async function verifyEmail() {
+    if (!token) {
+      message = 'Token je neplatný.';
+      return;
+    }
+
     try {
-      console.log('Ověřuji token přes API:', token);
       const response = await fetch('/api/verify-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({ token })
       });
 
       const data = await response.json();
-      message = data.success
-        ? 'Email byl úspěšně ověřen!'
-        : data.error || 'Nepodařilo se ověřit email.';
+      if (data.success) {
+        message = 'Email byl úspěšně ověřen!';
+        isVerified = true;
+      } else {
+        message = data.error || 'Nepodařilo se ověřit email.';
+      }
     } catch (error) {
-      console.error('Chyba při komunikaci s API:', error);
-      message = 'Chyba při ověřování emailu.';
+      console.error('Chyba při ověřování:', error);
+      message = 'Došlo k chybě při ověřování emailu.';
     }
   }
+
+  // Volání verifyEmail() při načtení komponenty
+  onMount(() => {
+    verifyEmail();
+  });
 </script>
 
 <h1>{message}</h1>
+
+{#if isVerified}
+  <p>Váš email byl úspěšně ověřen. Můžete se přihlásit.</p>
+{/if}
+
+{#if !isVerified && token}
+  <p>Ověřování emailu probíhá...</p>
+{/if}
