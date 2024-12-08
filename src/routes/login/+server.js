@@ -14,7 +14,7 @@ export async function POST({ request }) {
   if (!nickname || !password) {
     return new Response(JSON.stringify({ success: false, message: 'Invalid input' }), { status: 400 });
   }
-
+  console.log("formData");
   try {
     const user1 = await db.select().from(user).where(eq(user.nickname, nickname)).get();
 
