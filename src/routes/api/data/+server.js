@@ -1,6 +1,7 @@
 // api/data.ts
 import { db } from '$lib/server/db';
 import { user} from '$lib/server/db/schema';
+import { poradce} from '$lib/server/db/schema';
 
 export async function GET({ url }) {
     const table = url.searchParams.get('table');
@@ -10,6 +11,9 @@ export async function GET({ url }) {
         switch (table) {
             case 'user':
                 data = await db.select().from(user);
+                break;
+            case 'poradce':
+                data = await db.select().from(poradce);
                 break;
             default:
                 return new Response(JSON.stringify({ error: 'Nenašla se tabulka' }), { status: 400 });

@@ -2,7 +2,6 @@
 	import { goto } from '$app/navigation';
 	import { fade } from 'svelte/transition';
 
-	// Reaktivní proměnné
 	let loginSuccess = false;
 	let notification = '';
 	let nickname = '';

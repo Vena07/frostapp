@@ -48,7 +48,7 @@
         </div>
         <div class="poradce">
             <img src="/images/pana3.png" alt="">
-            <p class="poradce-text">Poradce v kapse</p>
+            <p class="poradce-text"> <a href="/poradce">Poradce v kapse</a></p>
         </div>
     </div>
 
@@ -115,7 +115,7 @@
             cursor: pointer;
         }
 
-        p{
+        p {
             text-align: center;
             color: white;
             font-family: Outfit;
@@ -177,10 +177,11 @@
         width: 100%;
         background: linear-gradient(110.37deg, #E44F95 0%, #4C328A 100%);
 
-        p {
+        p,a{
             margin: 0 0 6px 0;
             color: white;
             font-weight: 600;
+            text-decoration: none;
         }
     }
 
