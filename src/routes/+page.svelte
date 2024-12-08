@@ -45,6 +45,8 @@
       padding-bottom: 20px;
       gap: 10px;
       padding-top: 35px;
+      margin: auto;
+      justify-content: center;
     }
 
     .text-colum p{
