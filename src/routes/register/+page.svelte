@@ -71,14 +71,7 @@
 		}
 	}
 </script>
-		{#if notification}
-			<div transition:fade class="notification">{notification}</div>
-		{/if}
-
-		{#if registrationSuccess}
-			<div transition:fade class="notification">Registration successful! Check your email to verify your account.</div>
-		{/if}
-
+		
 
 
 
@@ -120,6 +113,13 @@
         <a href="/login">Již máte učet?</a>
     </div>
 	</form>
+		{#if notification}
+			<div transition:fade class="notification">{notification}</div>
+		{/if}
+
+		{#if registrationSuccess}
+			<div transition:fade class="notification">Registration successful! Check your email to verify your account.</div>
+		{/if}
 
 
    <img src="/images/bottom.png" alt="Obrázek" />

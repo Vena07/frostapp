@@ -9,7 +9,7 @@ export async function POST({ locals }) {
     try {
       await db.update(user)
         .set({ isOnline: 0 })
-        .where(eq(user.id, locals.user1.id))
+        .where(eq(user.id, locals.user.id)) // Opravený přístup k uživatelskému ID
         .run();
     } catch (error) {
       console.error('Error while updating user status:', error);
@@ -17,10 +17,10 @@ export async function POST({ locals }) {
     }
   }
 
-  // Odstranění cookie "session" (nastavení maxAge na -1)
+  // Odstranění cookie "session" (nastavení maxAge na -1 pro okamžité vypršení)
   const cookie = serialize('session', '', {
     httpOnly: true,
-    maxAge: 0, // Okamžité vypršení cookie
+    maxAge: -1, // Okamžité vypršení cookie
     sameSite: 'strict',
     secure: process.env.NODE_ENV === 'production', // Secure pouze v produkci
     path: '/' // Ujistíme se, že cookie bude zrušena na všech stránkách

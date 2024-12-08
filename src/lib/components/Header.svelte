@@ -86,7 +86,7 @@
             transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 
             &.top.isOpen {
-            transform: translateY(9px) rotate(90deg);
+            transform: translateY(12px) rotate(120deg);
             background-color: #fddcff;
             }
 
@@ -96,7 +96,7 @@
             }
 
             &.bottom.isOpen {
-            transform: translateY(-9px) translateX(-10px) rotate(-60deg);
+            transform: translateY(-6px) translateX(-0px) rotate(-120deg);
             }
         }
     }

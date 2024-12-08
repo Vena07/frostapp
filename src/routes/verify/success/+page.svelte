@@ -8,7 +8,7 @@
   <div class="verify-box">
     <h1>Email Verified Successfully!</h1>
     <p>Your email has been successfully verified. You can now log in.</p>
-    <a href="/login">Back to login</a>
+    <a href="/login" >Back to login</a>
   </div>
 </div>
 
@@ -27,10 +27,12 @@
     border-radius: 10px;
     box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
     text-align: center;
+    background: linear-gradient(90deg, #E44F95 0%, #4C328A 100%);
+
   }
   
   h1 {
-    color: #ff8113;
+    color: white;
     margin-bottom: 20px;
   }
   
@@ -40,4 +42,7 @@
     color: white;
   }
   
+  a{
+    color: white;
+  }  
 </style>

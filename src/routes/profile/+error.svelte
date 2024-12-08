@@ -5,7 +5,7 @@
     console.log(user)
     async function logout() {
       await fetch('/logout', { method: 'POST' });
-      window.location.href = '/login';
+      window.location.href = '/registrace';
     }
   </script>
 

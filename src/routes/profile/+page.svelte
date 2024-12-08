@@ -7,16 +7,30 @@
       await fetch('/logout', { method: 'POST' });
       window.location.href = '/login';
     }
+    function calculateAge(birthDate) {
+    const birth = new Date(birthDate); // Převod data narození na objekt Date
+    const today = new Date(); // Dnešní datum
+    let age = today.getFullYear() - birth.getFullYear(); // Počítání věku podle let
 
-    let vek = user.datum_nar * 0.10
+    // Pokud narozeniny letos ještě neproběhly, odečteme jeden rok
+    const monthDifference = today.getMonth() - birth.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+
+    return age;
+    }   
+
+    
+    let vek = calculateAge(user.datum_nar);
 </script>
    
 <div class="dashboard-contener">
     <div class="profile-card">
-        <button onclick={logout}>Logout</button>
+        <button onclick={logout} class="tlacitko">Logout</button>
         <div>
             <img src="/images/krizek.png" alt="">
-            <p>{user.nickname}<br> {vek}</p>
+            <p>{user.nickname}<br> {vek} Let</p>
         </div>
         <button><img src="/images/setting.png" alt=""></button>
     </div>
@@ -55,6 +69,12 @@
 <style lang="scss">
     *{
         font-family: "Outfit";
+    }
+
+    .tlacitko{
+        font-size: 15px;
+        color: white;
+        margin: 5px;
     }
 
     .dashboard-contener{
