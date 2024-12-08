@@ -1,152 +1,132 @@
-<script lang="ts">
-	import { goto } from '$app/navigation'; // Importování goto z SvelteKit
-	import { fade } from 'svelte/transition'; // Importování fade pro přechod
-
-	let registrationSuccess = false;
-	let email = '';
-	let nickname = '';
-	let password = '';
-  let jmeno = '';
-  let prijmeni = "";
-	let confirmPassword = '';
-	let notification = '';
-  let datum_nar = "";
-
-	// Funkce pro validaci hesla
-	function validatePassword(password: string) {
-		const errors = [];
-		if (!/[A-Z]/.test(password)) {
-			errors.push('The password must contain at least one uppercase letter.');
-		} else if (!/[0-9]/.test(password)) {
-			errors.push('The password must contain at least one number');
-		} else if (password.length < 8) {
-			errors.push('The password must be at least 8 characters long');
-		}
-		return errors;
-	}
-
-	// Funkce pro registraci uživatele
-	async function register() {
-		notification = '';
-
-		// Kontrola, jestli hesla odpovídají
-		if (password !== confirmPassword) {
-			notification = 'Passwords do not match';
-			return;
-		}
-
-		// Validace hesla
-		const passwordErrors = validatePassword(password);
-		if (passwordErrors.length > 0) {
-			notification = passwordErrors.join(' ');
-			return;
-		}
-
-		// Příprava formulářových dat
-		const formData = new FormData();
-		formData.append('email', email);
-		formData.append('nickname', nickname);
-		formData.append('password', password);
-    formData.append('jmeno', jmeno);
-    formData.append('prijmeni', prijmeni);
-
-		// Odeslání dat na backend
-		const response = await fetch('/register', {
-			method: 'POST',
-			body: formData,
-		});
-
-		// Zpracování odpovědi z backendu
-		if (response.ok) {
-			const result = await response.json();
-			if (result.success) {
-				registrationSuccess = true;
-				setTimeout(() => {
-					goto('/login'); // Přesměrování na přihlašovací stránku po 1 sekundě
-				}, 1000);
-			} else {
-				notification = result.message;
-			}
-		} else {
-			const errorResult = await response.json();
-			notification = errorResult.message;
-		}
-	}
+<script>
+	import SectionCard from './../lib/components/SectionCard.svelte';
+	import ButtnSVG from './../lib/components/ButtnSVG.svelte';
 </script>
 
-<svelte:head>
-	<title>rtzui</title>
-</svelte:head>
+  <div class="hero">
+    <img src="/images/hero.png" alt="" />
+    <h1>FOSTER APP</h1>
+    <p>Domov v srdci, pomoc na dosah.</p>
+    <a href="/login"><ButtnSVG class="tlacitko">Začít</ButtnSVG></a>
 
-<div class="Main">
-	<div class="form">
-		<h1>Register</h1>
-		<form on:submit|preventDefault={register}>
-			<input type="email" bind:value={email} placeholder="Email" required>
-			<input type="text" bind:value={nickname} placeholder="Nickname" required>
-      <input type="text" bind:value={jmeno} placeholder="Petr" required>
-      <input type="text" bind:value={prijmeni} placeholder="Příjmení" required>
-			<input type="password" bind:value={password} placeholder="Password" required>
-			<input type="password" bind:value={confirmPassword} placeholder="Confirm Password" required>
-      <input type="date" bind:value={datum_nar} required>
-			<button type="submit">Register</button>
-		</form>
+  </div>
+  
+  <div class="sections">
+    <SectionCard img="/images/support.png" head="Podpora na každém kroku">Nástroje, které pomáhají dětem lépe <br> zvládat každodenní situace</SectionCard>
+    <SectionCard img="/images/learn.png" head="Učení a rozvoj">Zdroje, které podporují vzdělání, <br>osobní růst a sebevědomí</SectionCard>
+    <SectionCard img="/images/community.png" head="Propojení s komunitou">Zdroje, které propojují rodiny, pečovatele i děti.</SectionCard>
+    <SectionCard img="/images/goals.png" head="Společně..">můžeme udělat krok ke světu, kde <br> každý má dítě šanci na šťastný život</SectionCard>
+    <SectionCard img="/images/pani.png" head="Poradce ve vaší kapse">Náš poradce v aplikaci je tu proto,<br> aby vám poskytl pomoc a podporu <br>kdykoliv ji budete potřebovat.</SectionCard>
+  </div>
 
-		{#if notification}
-			<div class="notification" transition:fade>{{ notification }}</div>
-		{/if}
+  <div class="colum">
+    <div class="text-colum">
+      <p>Podpora, kterou si zasloužíš. <br> Budoucnost, kterou můžeš tvořit.</p>
+      <a href="/login"><ButtnSVG class="tlacitko">DOMUS</ButtnSVG></a>
+    </div>
+    <div class="img-colum">
+      <img src="/images/4section.png" alt="">
+    </div>
+  </div>
 
-		{#if registrationSuccess}
-			<div class="success-message" transition:fade>
-				<h2>Registration successful!</h2>
-				<p>You will be redirected to the login page...</p>
-			</div>
-		{/if}
-	</div>
+<div class="footer">
+  <p>Foster app <br> TechTower, 301 00 Plzeň <br>
+    IČO: xxxxxxxx <br>
+    Číslo účtu: xx-xxxxxxxxxx/xxxx <br>
+    ID datové schránky: xxxxxx <br>
+    Kontakt: <a href="mailto:info@fosterapp.cz">info@fosterapp.cz</a>
+  </p>
 </div>
+  
+  <style>
+    .colum{
+      display: flex;
+      padding-left: 25px;
+      padding-bottom: 20px;
+      gap: 10px;
+      padding-top: 35px;
+    }
 
-<style>
-	.Main {
-		max-width: 400px;
-		margin: 0 auto;
-		padding: 20px;
-	}
+    .text-colum p{
+      font-weight: bold;
+      color: #333;
+      font-family: Outfit;
+      font-size: 12px;
+      font-weight: 900;
+      padding-bottom: 25px;
+    }
 
-	.form {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+    a{
+      text-decoration: none;
+    }
+    
+    .sections{
+      background-image: url('/images/backgroud.png');
+    }
+    
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: #fdf3f7;
+      
+    }
 
-	input {
-		width: 100%;
-		padding: 10px;
-		margin: 10px 0;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-	}
+    .hero img {
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto 20px;
+    }
+  
+    .hero h1 {
+        font-family: "Outfit", sans-serif;
+        font-weight: 900;
+        font-size: 32px;
+    }
+  
+    .hero p {
+        font-family: "Outfit", sans-serif;
+        font-weight: 900;
+        font-size: 16px;
+    }
+  
+   
+    .social-media {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+    }
 
-	button {
-		width: 100%;
-		padding: 10px;
-		background-color: #4CAF50;
-		color: white;
-		border: none;
-		border-radius: 4px;
-		cursor: pointer;
-	}
+  .social-media img {
+    width: 50px;
+    height: 50px;
+    justify-content: center;
+  }
 
-	button:hover {
-		background-color: #45a049;
-	}
+  .footer {
+    background-color: #4C328A;
+    color: white;
+    padding: 20px;
+    text-align: left;
+    border-top: 6px solid #E44F95;
+  }
 
-	.notification {
-		color: red;
-		margin-top: 10px;
-	}
+  .footer p {
+    color: white;
+    font-family: Outfit;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 7.56px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    line-height: 15px;
+  }
+  .footer a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
 
-	.success-message {
-		color: green;
-		margin-top: 10px;
-	}
 </style>

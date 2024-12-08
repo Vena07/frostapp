@@ -3,6 +3,7 @@ import { user } from '$lib/server/db/schema';
 import bcrypt from 'bcryptjs';
 import { sendVerificationEmail } from '$lib/server/resend';
 import { eq } from 'drizzle-orm';
+import { BASE_URL } from '$env/static/private';
 
 export async function POST({ request }) {
 	const formData = await request.formData();
@@ -57,7 +58,7 @@ export async function POST({ request }) {
 		}).run();
 
 		// Odeslání verifikačního emailu
-		await sendVerificationEmail(email, `https://tvujweb.cz/verify-email?token=${token}`);
+		await sendVerificationEmail(email, nickname, token);
 
 		return new Response(JSON.stringify({
 			success: true,
